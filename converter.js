@@ -35,16 +35,19 @@ function brightnessToAscii(value) {
 }
 
 function printAsciiImage(table) {
-	var characterImage = "";
-	for (let i = 0; i < img.width / squareSize; i++) {
+	console.log(characterImageLine, table.length);
+	var characterImageLine = "";
+	for (let i = 0; i < table.length; i++) {
 		if (i % 80 == 0) {
-			characterImage += "\n";
+			var br = document.createElement("br");
+			paragraph.appendChild(document.createTextNode(characterImageLine));
+			paragraph.appendChild(br);
+			characterImageLine = ""
 		}
-		characterImage += table[i];
+		characterImageLine += table[i];
 	}
 	
-	console.log(characterImage);
-	paragraph.appendChild(document.createTextNode(characterImage));
+	// paragraph.appendChild(document.createTextNode(characterImageLine));
 }
 
 function squareAverage(data) {
@@ -95,6 +98,7 @@ function squareAverage(data) {
 
 
 main = () => {
+	console.log(ascii[255 / 4]);
     ctx.drawImage(img, 0, 0, img.width, img.height);
     const imageData = ctx.getImageData(0, 0, img.width, img.height);
     const data = imageData.data;
