@@ -31,7 +31,7 @@ function drawBlackSquare(i, j, data) {
 }
 
 function brightnessToAscii(value) {
-	return (value % 4);
+	return Math.floor(value / 4);
 }
 
 function printAsciiImage(table) {
@@ -58,7 +58,7 @@ function squareAverage(data) {
 
     for (let i = 0; i < img.width / squareSize; i++) {
 		for (let j = 0; j < img.width / squareSize; j++) {
-			asciiImageData.push(ascii[data[(i * lineReturn + j * step)] % 4 ]);
+			asciiImageData.push(ascii[brightnessToAscii(data[(i * lineReturn + j * step)])]);
 			r = 0;
 			g = 0;
 			b = 0;
@@ -98,7 +98,7 @@ function squareAverage(data) {
 
 
 main = () => {
-	console.log(ascii[255 / 4]);
+	console.log(ascii[Math.floor(255 / 4)]);
     ctx.drawImage(img, 0, 0, img.width, img.height);
     const imageData = ctx.getImageData(0, 0, img.width, img.height);
     const data = imageData.data;
