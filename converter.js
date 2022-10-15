@@ -7,15 +7,27 @@ var ctx = canvas.getContext("2d");
 
 var paragraph = document.getElementById("text");
 
-const ascii = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|)}]?-_+~<>i!lI;:,\"^`'."
+// const ascii = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|)}]?-_+~<>i!lI;:,\"^`'."
+const ascii = "@#$%?*+;:,.";
+
+
+// var video = document.querySelector("#videoElement");
+
+// if (navigator.mediaDevices.getUserMedia) {
+//   navigator.mediaDevices.getUserMedia({ video: true })
+//     .then(function (stream) {
+//       video.srcObject = stream;
+//     })
+//     .catch(function (err0r) {
+//       console.log("Something went wrong!");
+//     });
+// }
 
 img.onload = () => {
-  ctx.drawImage(img, 0, 0, img.width, img.height);
+	ctx.drawImage(img, 0, 0, img.width, img.height);
 };
 
-const squareSize = 5;
-const step = 4 * squareSize;
-const lineReturn = 4 * img.width * squareSize;
+const squareSize = 2;
 
 function drawBlackSquare(i, j, data) {
 	console.log(i, j, i * lineReturn + j * step);
@@ -26,19 +38,18 @@ function drawBlackSquare(i, j, data) {
 			data[(i * lineReturn + j * step) + 4 * (l + k * img.width) + 2] = 0;
 		}
 	}
-
+	
 	return data;
 }
 
 function brightnessToAscii(value) {
-	return Math.floor(value / 4);
+	return Math.floor(value / (256 / ascii.length) );
 }
 
 function printAsciiImage(table) {
-	console.log(characterImageLine, table.length);
 	var characterImageLine = "";
 	for (let i = 0; i < table.length; i++) {
-		if (i % 80 == 0) {
+		if (i % (img.width / squareSize) == 0) {
 			var br = document.createElement("br");
 			paragraph.appendChild(document.createTextNode(characterImageLine));
 			paragraph.appendChild(br);
@@ -51,12 +62,15 @@ function printAsciiImage(table) {
 }
 
 function squareAverage(data) {
-    var r = 0;
+	var r = 0;
     var g = 0;
     var b = 0;
 	var asciiImageData = [];
-
-    for (let i = 0; i < img.width / squareSize; i++) {
+	
+	const step = 4 * squareSize;
+	const lineReturn = 4 * img.width * squareSize;
+	
+    for (let i = 0; i < img.height / squareSize; i++) {
 		for (let j = 0; j < img.width / squareSize; j++) {
 			asciiImageData.push(ascii[brightnessToAscii(data[(i * lineReturn + j * step)])]);
 			r = 0;
@@ -93,18 +107,33 @@ function squareAverage(data) {
 	}
 
     return asciiImageData;
+	// return data;
 }
 
 
 
+var grayscale = function() {
+	ctx.drawImage(img, 0, 0);
+	const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+	const data = imageData.data;
+	for (var i = 0; i < data.length; i += 4) {
+		var avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+		data[i]     = avg; // red
+		data[i + 1] = avg; // green
+		data[i + 2] = avg; // blue
+	}
+	ctx.putImageData(imageData, 0, 0);
+};
+
 main = () => {
-	console.log(ascii[Math.floor(255 / 4)]);
     ctx.drawImage(img, 0, 0, img.width, img.height);
     const imageData = ctx.getImageData(0, 0, img.width, img.height);
-    const data = imageData.data;
+    var data = imageData.data;
+	//console.log(data);
+	
 	const asciiTable = squareAverage(data);
     // imageData.data = squareAverage(data);
 	printAsciiImage(asciiTable);
 	// ctx.putImageData(imageData, 0, 0);
 
-}
+};
