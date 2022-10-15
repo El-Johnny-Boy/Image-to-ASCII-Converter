@@ -34,6 +34,8 @@ var squareSize = 5;
 function updateSliderValue() {
 	var slider = document.getElementById("range").value;
 	document.getElementById("slider-value").innerHTML = "Value: " + slider;
+
+	return slider;
 }
 
 //Function that draws a black square on the coordinates (i, j).
@@ -135,7 +137,9 @@ function squareAverage(data) {
 
 main = () => {
 	squareSize = document.getElementById("range").value;
-	updateSliderValue();
+	var slider = updateSliderValue();
+	document.getElementById("text").style.fontSize = slider*1.83 + "px";
+	console.log(slider, slider * 1.83);
     ctx.drawImage(img, 0, 0, img.width, img.height);
     const imageData = ctx.getImageData(0, 0, img.width, img.height);
     var data = imageData.data;
