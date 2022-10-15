@@ -1,5 +1,9 @@
 p{
     font-size: 10px;
     font-family: 'Courier New', Courier, monospace;
-    line-height: 60%;
+    line-height: 55%;
+}
+
+#text, canvas{
+    display: inline-block;
 }

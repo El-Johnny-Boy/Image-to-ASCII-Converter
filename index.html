@@ -5,13 +5,20 @@
     <title>Grayscaling and inverting color | Canvas pixel manipulation</title>
   </head>
   <body>
+
     <canvas id="canvas" width="500" height="500"></canvas>
-    <!-- <div id="container">
+    <p id="text"></p>
+
+      <!-- <div id="container">
+
 	  <video autoplay="true" id="videoElement">
 	
 	  </video>
     </div> -->
-    <p id="text"></p>
+    <div>
+      <p id="slider-value">Value:</p>
+      <input type="range" min="1" max="100" value="1" class="slider" id="range" step ="1" onchange="main()" oninput="updateSliderValue()">
+    </div>
     <button id="convert" onclick="main()">Convert</button>
 		<script src="converter.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" /> 
